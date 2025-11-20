@@ -9,20 +9,19 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
     @Column(name = "email")
-    private String userEmail;
+    private String email;
 
     @Column(name = "name")
-    private String userName;
+    private String name;
 
     @Column(name = "password")
-    private String userPassword;
+    private String password;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
