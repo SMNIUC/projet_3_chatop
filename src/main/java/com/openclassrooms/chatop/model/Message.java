@@ -15,11 +15,13 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer messageId;
 
-    @Column(name = "rental_id")
-    private Integer rentalId;
+    @OneToOne
+    @JoinColumn(name = "rental_id", referencedColumnName = "id")
+    private Rental rentalId;
 
-    @Column(name = "user_id")
-    private Integer userId;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User userId;
 
     @Column(name = "message")
     private String message;

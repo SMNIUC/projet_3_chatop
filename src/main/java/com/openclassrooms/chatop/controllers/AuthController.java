@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @Tag(name = "Authentication")
+// TODO Needed ??
 @RequestMapping()
 @RequiredArgsConstructor
 public class AuthController {
@@ -41,6 +42,7 @@ public class AuthController {
     @Operation(summary = "Login a user")
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequestDto request) {
+        // TODO auth necessary?
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -61,7 +63,7 @@ public class AuthController {
         }
 
         return new UserMeDto(
-                user.getUserId(),
+                user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getCreatedAt(),

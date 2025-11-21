@@ -1,12 +1,11 @@
 package com.openclassrooms.chatop.controllers;
 
-import com.openclassrooms.chatop.services.MessageService;
+//import com.openclassrooms.chatop.services.MessageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class MessageController {
-
-    private final MessageService messageService;
+//    private final MessageService messageService;
 }

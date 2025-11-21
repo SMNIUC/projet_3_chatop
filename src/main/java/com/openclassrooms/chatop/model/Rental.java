@@ -18,21 +18,21 @@ public class Rental {
     @Column(name = "name")
     private String rentalName;
 
-    // TODO confirm data format
     @Column(name = "surface")
-    private float rentalSurface;
+    private Double rentalSurface;
 
     @Column(name = "price")
-    private float rentalPrice;
+    private Double rentalPrice;
 
     @Column(name = "picture")
     private String rentalPicture;
 
     @Column(name = "description")
-    private String reantalDescription;
+    private String rentalDescription;
 
-    @Column(name = "owner_id")
-    private String ownerId;
+    @OneToOne
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    private User owner;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
