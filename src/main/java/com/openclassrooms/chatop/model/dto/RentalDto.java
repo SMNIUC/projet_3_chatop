@@ -3,18 +3,18 @@ package com.openclassrooms.chatop.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 public class RentalDto {
-    private Integer rentalId;
-    private String rentalName;
-    private Double rentalSurface;
-    private Double rentalPrice;
-    private String rentalPicture;
-    private String rentalDescription;
-    private Integer ownerId;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private Integer id;
+    private String name;
+    private Double surface;
+    private Double price;
+    private String picture;
+    private String description;
+    private Integer owner_id;
+    private Date created_at;
+    private Date updated_at;
 }

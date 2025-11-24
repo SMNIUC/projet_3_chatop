@@ -22,8 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @Tag(name = "Authentication")
-// TODO Needed ??
-@RequestMapping()
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationManager authenticationManager;

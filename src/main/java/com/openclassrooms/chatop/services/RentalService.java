@@ -5,6 +5,7 @@ import com.openclassrooms.chatop.model.User;
 import com.openclassrooms.chatop.model.dto.CreateRentalRequestDto;
 import com.openclassrooms.chatop.model.dto.RentalDto;
 import com.openclassrooms.chatop.repositories.RentalRepository;
+import com.openclassrooms.chatop.utils.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class RentalService {
 
     private final RentalRepository rentalRepository;
+    private final FileStorageService fileStorageService;
 
     public List<RentalDto> getAllRentals() {
         return rentalRepository.findAll().stream()
@@ -52,27 +54,22 @@ public class RentalService {
         rental.setRentalName(request.getName());
         rental.setRentalSurface(request.getSurface());
         rental.setRentalPrice(request.getPrice());
-        rental.setRentalPicture(request.getPicture());
+        rental.setRentalPicture(fileStorageService.saveFile(request.getPicture()));
         rental.setRentalDescription(request.getDescription());
         rental.setOwner(owner);
         rental.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
         rentalRepository.save(rental);
     }
 
+    // TODO Retest file storage 4 update
     public void updateRental(Integer id, CreateRentalRequestDto request) {
         Rental rentalToUpdate = rentalRepository.findRentalByRentalId(id);
         rentalToUpdate.setRentalName(request.getName());
         rentalToUpdate.setRentalSurface(request.getSurface());
         rentalToUpdate.setRentalPrice(request.getPrice());
-        rentalToUpdate.setRentalPicture(request.getPicture());
+        rentalToUpdate.setRentalPicture(fileStorageService.saveFile(request.getPicture()));
         rentalToUpdate.setRentalDescription(request.getDescription());
         rentalToUpdate.setUpdatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
         rentalRepository.save(rentalToUpdate);
     }
-
-    // TODO delete route?
-//    public void deleteRental(Integer id) {
-//        Rental rentalToDelete = rentalRepository.findRentalByRentalId(id);
-//        rentalRepository.delete(rentalToDelete);
-//    }
 }
