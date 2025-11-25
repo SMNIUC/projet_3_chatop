@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit;
 @Service
 @RequiredArgsConstructor
 public class JWTService {
+
     private final JwtEncoder jwtEncoder;
 
     public String generateToken(@Nonnull String email) {
@@ -26,8 +27,8 @@ public class JWTService {
 
         JwsHeader jwsHeader = JwsHeader.with(SignatureAlgorithm.RS256).build();
         JwtEncoderParameters params = JwtEncoderParameters.from(jwsHeader, claims);
-
         Jwt encoded = this.jwtEncoder.encode(params);
+
         return encoded.getTokenValue();
     }
 }

@@ -19,6 +19,7 @@ import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 public class JwtConfig {
+
     @Bean
     public JwtEncoder jwtEncoder() throws Exception {
         RSAPrivateKey privateKey = KeyUtils.readPrivateKey("keys/private.pem");
