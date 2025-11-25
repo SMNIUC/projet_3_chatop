@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @Service
 public class FileStorageService {
+
     private final String uploadDir = "uploads/rentals/";
 
     @PostConstruct

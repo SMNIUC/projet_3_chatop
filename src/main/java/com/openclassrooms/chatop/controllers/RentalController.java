@@ -1,9 +1,9 @@
 package com.openclassrooms.chatop.controllers;
 
 import com.openclassrooms.chatop.model.User;
-import com.openclassrooms.chatop.model.dto.CreateRentalRequestDto;
-import com.openclassrooms.chatop.model.dto.RentalDto;
-import com.openclassrooms.chatop.model.dto.RentalsResponse;
+import com.openclassrooms.chatop.model.requestDto.RentalRequestDto;
+import com.openclassrooms.chatop.model.responseDto.RentalResponseDto;
+import com.openclassrooms.chatop.model.responseDto.RentalsListResponseDto;
 import com.openclassrooms.chatop.services.RentalService;
 import com.openclassrooms.chatop.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@Tag(name = "Rentals")
+@Tag(name = "Rentals", description = "CRUD operations for Rentals")
 @RequestMapping("/api/rentals")
 @RequiredArgsConstructor
 public class RentalController {
@@ -34,16 +34,17 @@ public class RentalController {
 
     @Operation(summary = "Get all rentals")
     @GetMapping("")
-    public RentalsResponse getRentals() {
-        return new RentalsResponse(rentalService.getAllRentals());
+    public RentalsListResponseDto getRentals() {
+        return new RentalsListResponseDto(rentalService.getAllRentals());
     }
 
     @Operation(summary = "Get a rental by its id")
     @GetMapping("/{id}")
-    public RentalDto getRentalById(@PathVariable("id") Integer id) {
+    public RentalResponseDto getRentalById(@PathVariable("id") Integer id) {
         return rentalService.getRentalById(id);
     }
 
+    @Operation(summary = "Get a rental image by its url")
     @GetMapping("/images/{filename:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {
         try {
@@ -69,12 +70,11 @@ public class RentalController {
 
     @Operation(summary = "Create a new rental")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Map<String, String>> createRental(@ModelAttribute CreateRentalRequestDto request,
+    public ResponseEntity<Map<String, String>> createRental(@ModelAttribute RentalRequestDto request,
                                                             @AuthenticationPrincipal Jwt jwt) {
         User owner = userService.getByEmail(jwt.getSubject());
         rentalService.createRental(request, owner);
         Map<String, String> response = new HashMap<>();
-        //TODO send message? it doesn't seem to be taken as input on FE
         response.put("message", "Rental created !");
 
         return ResponseEntity.ok(response);
@@ -83,10 +83,9 @@ public class RentalController {
     @Operation(summary = "Update a rental")
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Map<String, String>> updateRental(@PathVariable("id") Integer id,
-                                                            @ModelAttribute CreateRentalRequestDto request) {
+                                                            @ModelAttribute RentalRequestDto request) {
         rentalService.updateRental(id, request);
         Map<String, String> response = new HashMap<>();
-        //TODO send message? it doesn't seem to be taken as input on FE
         response.put("message", "Rental updated !");
 
         return ResponseEntity.ok(response);

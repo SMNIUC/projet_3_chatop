@@ -21,6 +21,7 @@ import java.util.List;
 
 @Configuration
 public class SpringSecurityConfig {
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();

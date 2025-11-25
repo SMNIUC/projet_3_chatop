@@ -13,6 +13,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 public final class KeyUtils {
+
     private KeyUtils() {}
 
     public static RSAPublicKey readPublicKey(String resourcePath) throws Exception {

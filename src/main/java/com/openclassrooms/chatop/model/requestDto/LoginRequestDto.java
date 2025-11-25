@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.model.dto;
+package com.openclassrooms.chatop.model.requestDto;
 
 import lombok.Data;
 

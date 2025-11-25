@@ -2,12 +2,13 @@ package com.openclassrooms.chatop.services;
 
 import com.openclassrooms.chatop.model.Rental;
 import com.openclassrooms.chatop.model.User;
-import com.openclassrooms.chatop.model.dto.CreateRentalRequestDto;
-import com.openclassrooms.chatop.model.dto.RentalDto;
+import com.openclassrooms.chatop.model.requestDto.RentalRequestDto;
+import com.openclassrooms.chatop.model.responseDto.RentalResponseDto;
 import com.openclassrooms.chatop.repositories.RentalRepository;
 import com.openclassrooms.chatop.utils.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ public class RentalService {
     private final RentalRepository rentalRepository;
     private final FileStorageService fileStorageService;
 
-    public List<RentalDto> getAllRentals() {
+    public List<RentalResponseDto> getAllRentals() {
         return rentalRepository.findAll().stream()
-                .map(r -> new RentalDto(
+                .map(r -> new RentalResponseDto(
                         r.getRentalId(),
                         r.getRentalName(),
                         r.getRentalSurface(),
@@ -34,9 +35,9 @@ public class RentalService {
                 .toList();
     }
 
-    public RentalDto getRentalById(Integer id) {
+    public RentalResponseDto getRentalById(Integer id) {
         Rental rental = rentalRepository.findRentalByRentalId(id);
-        return new RentalDto(
+        return new RentalResponseDto(
                 rental.getRentalId(),
                 rental.getRentalName(),
                 rental.getRentalSurface(),
@@ -49,26 +50,31 @@ public class RentalService {
         );
     }
 
-    public void createRental(CreateRentalRequestDto request, User owner) {
+    public Rental findRentalByRentalId(Integer id) {
+        return rentalRepository.findRentalByRentalId(id);
+    }
+
+    @Transactional
+    public void createRental(RentalRequestDto r, User owner) {
         Rental rental = new Rental();
-        rental.setRentalName(request.getName());
-        rental.setRentalSurface(request.getSurface());
-        rental.setRentalPrice(request.getPrice());
-        rental.setRentalPicture(fileStorageService.saveFile(request.getPicture()));
-        rental.setRentalDescription(request.getDescription());
+        rental.setRentalName(r.getName());
+        rental.setRentalSurface(r.getSurface());
+        rental.setRentalPrice(r.getPrice());
+        rental.setRentalPicture(fileStorageService.saveFile(r.getPicture()));
+        rental.setRentalDescription(r.getDescription());
         rental.setOwner(owner);
         rental.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
+        rental.setUpdatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
         rentalRepository.save(rental);
     }
 
-    // TODO Retest file storage 4 update
-    public void updateRental(Integer id, CreateRentalRequestDto request) {
+    @Transactional
+    public void updateRental(Integer id, RentalRequestDto r) {
         Rental rentalToUpdate = rentalRepository.findRentalByRentalId(id);
-        rentalToUpdate.setRentalName(request.getName());
-        rentalToUpdate.setRentalSurface(request.getSurface());
-        rentalToUpdate.setRentalPrice(request.getPrice());
-        rentalToUpdate.setRentalPicture(fileStorageService.saveFile(request.getPicture()));
-        rentalToUpdate.setRentalDescription(request.getDescription());
+        rentalToUpdate.setRentalName(r.getName());
+        rentalToUpdate.setRentalSurface(r.getSurface());
+        rentalToUpdate.setRentalPrice(r.getPrice());
+        rentalToUpdate.setRentalDescription(r.getDescription());
         rentalToUpdate.setUpdatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
         rentalRepository.save(rentalToUpdate);
     }

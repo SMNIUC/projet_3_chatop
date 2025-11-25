@@ -1,9 +1,9 @@
-package com.openclassrooms.chatop.model.dto;
+package com.openclassrooms.chatop.model.requestDto;
 
 import lombok.Data;
 
 @Data
-public class UserDto {
+public class UserRequestDto {
     private String name;
     private String email;
     private String password;

@@ -1,4 +1,4 @@
-package com.openclassrooms.chatop.model.dto;
+package com.openclassrooms.chatop.model.responseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
-public class UserMeDto {
+public class UserResponseDto {
     private Integer id;
     private String name;
     private String email;

@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "rentals")
 public class Rental {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
