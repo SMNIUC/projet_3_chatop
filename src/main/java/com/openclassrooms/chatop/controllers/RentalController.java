@@ -1,5 +1,6 @@
 package com.openclassrooms.chatop.controllers;
 
+import com.openclassrooms.chatop.model.Rental;
 import com.openclassrooms.chatop.model.User;
 import com.openclassrooms.chatop.model.requestDto.RentalRequestDto;
 import com.openclassrooms.chatop.model.responseDto.RentalResponseDto;
@@ -21,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,13 +37,37 @@ public class RentalController {
     @Operation(summary = "Get all rentals")
     @GetMapping("")
     public RentalsListResponseDto getRentals() {
-        return new RentalsListResponseDto(rentalService.getAllRentals());
+        List<Rental> rentals = rentalService.getAllRentals();
+        return new RentalsListResponseDto(rentals.stream()
+                .map(r -> new RentalResponseDto(
+                        r.getRentalId(),
+                        r.getRentalName(),
+                        r.getRentalSurface(),
+                        r.getRentalPrice(),
+                        r.getRentalPicture(),
+                        r.getRentalDescription(),
+                        r.getOwner().getId(),
+                        r.getCreatedAt(),
+                        r.getUpdatedAt()
+                ))
+                .toList());
     }
 
     @Operation(summary = "Get a rental by its id")
     @GetMapping("/{id}")
     public RentalResponseDto getRentalById(@PathVariable("id") Integer id) {
-        return rentalService.getRentalById(id);
+        Rental rental = rentalService.findRentalByRentalId(id);
+        return new RentalResponseDto(
+                rental.getRentalId(),
+                rental.getRentalName(),
+                rental.getRentalSurface(),
+                rental.getRentalPrice(),
+                rental.getRentalPicture(),
+                rental.getRentalDescription(),
+                rental.getOwner().getId(),
+                rental.getCreatedAt(),
+                rental.getUpdatedAt()
+        );
     }
 
     @Operation(summary = "Get a rental image by its url")

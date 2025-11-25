@@ -1,5 +1,6 @@
 package com.openclassrooms.chatop.controllers;
 
+import com.openclassrooms.chatop.model.User;
 import com.openclassrooms.chatop.model.responseDto.UserResponseDto;
 import com.openclassrooms.chatop.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +22,11 @@ public class UserController {
     @Operation(summary = "Get a user by their id")
     @GetMapping("/{id}")
     public UserResponseDto getUserById(@PathVariable("id") Integer id) {
-        return userService.getUserResponseDto(id);
+        User user = userService.findUserById(id);
+        return new UserResponseDto(user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getCreatedAt(),
+                user.getUpdatedAt());
     }
 }

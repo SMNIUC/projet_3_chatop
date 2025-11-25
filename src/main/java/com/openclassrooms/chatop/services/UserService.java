@@ -2,7 +2,6 @@ package com.openclassrooms.chatop.services;
 
 import com.openclassrooms.chatop.model.User;
 import com.openclassrooms.chatop.model.requestDto.UserRequestDto;
-import com.openclassrooms.chatop.model.responseDto.UserResponseDto;
 import com.openclassrooms.chatop.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,15 +23,6 @@ public class UserService {
     public User findUserById(Integer userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + userId));
-    }
-
-    public UserResponseDto getUserResponseDto(Integer userId) {
-        User user = findUserById(userId);
-        return new UserResponseDto(user.getId(),
-                user.getName(),
-                user.getEmail(),
-                user.getCreatedAt(),
-                user.getUpdatedAt());
     }
 
     @Transactional

@@ -3,7 +3,6 @@ package com.openclassrooms.chatop.services;
 import com.openclassrooms.chatop.model.Rental;
 import com.openclassrooms.chatop.model.User;
 import com.openclassrooms.chatop.model.requestDto.RentalRequestDto;
-import com.openclassrooms.chatop.model.responseDto.RentalResponseDto;
 import com.openclassrooms.chatop.repositories.RentalRepository;
 import com.openclassrooms.chatop.utils.FileStorageService;
 import lombok.RequiredArgsConstructor;
@@ -19,35 +18,8 @@ public class RentalService {
     private final RentalRepository rentalRepository;
     private final FileStorageService fileStorageService;
 
-    public List<RentalResponseDto> getAllRentals() {
-        return rentalRepository.findAll().stream()
-                .map(r -> new RentalResponseDto(
-                        r.getRentalId(),
-                        r.getRentalName(),
-                        r.getRentalSurface(),
-                        r.getRentalPrice(),
-                        r.getRentalPicture(),
-                        r.getRentalDescription(),
-                        r.getOwner().getId(),
-                        r.getCreatedAt(),
-                        r.getUpdatedAt()
-                ))
-                .toList();
-    }
-
-    public RentalResponseDto getRentalById(Integer id) {
-        Rental rental = rentalRepository.findRentalByRentalId(id);
-        return new RentalResponseDto(
-                rental.getRentalId(),
-                rental.getRentalName(),
-                rental.getRentalSurface(),
-                rental.getRentalPrice(),
-                rental.getRentalPicture(),
-                rental.getRentalDescription(),
-                rental.getOwner().getId(),
-                rental.getCreatedAt(),
-                rental.getUpdatedAt()
-        );
+    public List<Rental> getAllRentals() {
+        return rentalRepository.findAll();
     }
 
     public Rental findRentalByRentalId(Integer id) {
